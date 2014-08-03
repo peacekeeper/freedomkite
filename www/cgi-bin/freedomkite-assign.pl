@@ -17,14 +17,14 @@ my $domain = $cgi->param('domain');
 
 if (! defined $code) { print $cgi->header(-status=>'400 Missing code'); print '400 Missing code\n'; exit; };
 
-my $existingdomain = $redis->get('pagekite-' . $code);
+my $existingdomain = $redis->get('pagekite-code-' . $code);
 
 if (! defined $existingdomain) { print $cgi->header(-status=>'404 Not found'); print '404 Not found\n'; exit; };
 
 if (defined $domain) {
 
-	$redis->set('pagekite-' . $code, $domain);
-	$redis->set('pagekite-' . $domain, $code);
+	$redis->set('pagekite-code-' . $code, $domain);
+	$redis->set('pagekite-domain-' . $domain, $code);
 }
 
 print $cgi->header(-status=>'200',-type=>'text/plain');

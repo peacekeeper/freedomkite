@@ -8,7 +8,7 @@ use Redis;
 openlog('freedomkite', 'ndelay.pid', 'local1');
 
 my $authdomain = 'freedombox.me';
-my $ip = '146.255.62.25';
+my $target = '146.255.62.25';
 my $redis = Redis->new( server => 'localhost:6379' );
 
 $|=1;
@@ -47,10 +47,10 @@ while(<>)
 
 			syslog('debug', "normal query");
 
-			my $exists = $redis->exists('pagekite-' . $qname);
+			my $exists = $redis->exists('pagekite-domain-' . $qname);
 			syslog('debug', "exists: $exists");
 
-			$result = $ip if $exists;
+			$result = $target if $exists;
 		} elsif ($qname =~ /$authdomain$authdomain$/) {
 
 			syslog('debug', "pagekite query");
@@ -63,7 +63,7 @@ while(<>)
 			my $salt = substr($sign, 0, 8);
 			syslog('debug', "payload: $payload, sign: $sign");
 
-			my $code = $redis->get('pagekite-' . $domain);
+			my $code = $redis->get('pagekite-domain-' . $domain);
 			my $calc = sha1_hex($code . $payload . $salt);
 			syslog('debug', "calc: $calc");
 
