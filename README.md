@@ -34,12 +34,21 @@ If a voucher code exists, and a domain has been registered with it:
 
 	pagekite-code-84c95ef5-7690  =>  'my.freedombox.me'
 
+cgi-bin/generate.pl and index.html
+==================================
+
+Prerequisites:
+
+* aptitude install libdata-gui-perl
+* aptitude install libredis-perl
+
+This is a simple HTML frontend that issues a new random voucher code and stores it in the Redis database.
+
 cgi-bin/freedomkite.pl
 ======================
 
 Prerequisites:
 
-* aptitude install libdata-gui-perl
 * aptitude install libredis-perl
 
 This is a simple Perl CGI script that can be used to query voucher codes and domain names, and to register domain names, using entries in the Redis database.
@@ -70,7 +79,16 @@ Register domain name using voucher code:
 freedomkite-pipe.pl
 ===================
 
-This is a pipe backend for PowerDNS, which can dynamically answer 1. "regular" DNS requests, and 2. "PageKite authentication" DNS requests. It uses the Redis database to look up voucher codes and domain names.
+Prerequisites:
+
+* aptitude install libdigest-hmac-perl
+* aptitude install libredis-perl
+
+This is a pipe backend for PowerDNS, which can dynamically answer
+1. "regular" DNS requests, and
+1. "PageKite authentication" DNS requests.
+
+The Redis database is used to look up voucher codes and domain names.
 
 See [here](http://pagekite.net/wiki/Howto/DnsBasedAuthentication) for more information about PageKite's DNS-based authentication mechanism.
 
@@ -82,14 +100,17 @@ Prerequisites:
 * aptitude install pdns-server pdns-backend-pipe
 
 In /etc/powerdns/pdns.d/pdns.bindbackend.conf
+
 	launch+=bind
 	bind-config=/etc/powerdns/bindbackend/named.conf
 
 In /etc/powerdns/pdns.d/pdns.pipebackend.conf
+
 	launch+=pipe
 	pipe-command=/path-to-freedomkite/freedomkite-pipe.pl
 
 In /etc/powerdns/bindbackend/named.conf
+
 	zone "freedombox.me" in {
 	  type master;
 	  file "/etc/powerdns/bindbackend/zones/freedombox.me.zone";
@@ -97,6 +118,7 @@ In /etc/powerdns/bindbackend/named.conf
 
 
 In /etc/powerdns/bindbackend/zones/freedombox.me.zone
+
 	$TTL    86400 ; 24 hours could have been written as 24h or 1d
 	$ORIGIN freedombox.me.
 	@  1D  IN  SOA ns1.freedombox.me. hostmaster.freedombox.me. (
@@ -121,12 +143,12 @@ Prerequisites:
 
 In /etc/pagekite.d/10_account.rc
 
-	kitename   = test.freedombox.me
+	kitename   = my.freedombox.me
 	kitesecret = 84c95ef5-7690
 
 In /etc/pagekite.d/20_frontends.rc
 
-	frontend   = pagekite.freedombox.me:80
+	frontend   = my.freedombox.me:80
 
 In /etc/pagekite.d/80_httpd.rc (example service)
 
@@ -142,7 +164,6 @@ Prerequisites:
 In /etc/pagekite.d/20_frontends.rc
 
 	isfrontend
-	host   = pagekite.freedombox.me
 	ports  = 80,443
 	protos = http,https
 
