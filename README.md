@@ -1,7 +1,7 @@
 freedomkite
 ===========
 
-Provides PageKite frontend services for FreedomBoxes.
+Provides PageKite frontend services for FreedomBoxes (and other devices).
 
 General overview:
 
