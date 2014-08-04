@@ -23,12 +23,12 @@ if ($ENV{'REQUEST_METHOD'} eq "GET") {
 
 		if (defined $existingdomain) {
 
-			print $cgi->header(-status=>'200',-type=>'application/json');
-			$existingdomain = ($existingdomain eq '') ? 'null' : "'$existingdomain'";
-			print "{'domain':$existingdomain}";
+			print $cgi->header(-status=>'200','Access-Control-Allow-Origin'=>'*',-type=>'application/json');
+			$existingdomain = ($existingdomain eq '') ? 'null' : "\"$existingdomain\"";
+			print "{\"domain\":$existingdomain}";
 		} else {
 
-			print $cgi->header(-status=>'200',-type=>'application/json');
+			print $cgi->header(-status=>'200','Access-Control-Allow-Origin'=>'*',-type=>'application/json');
 			print "{}";
 		}
 	} elsif (defined $domain) {
@@ -37,12 +37,12 @@ if ($ENV{'REQUEST_METHOD'} eq "GET") {
 
 		if (defined $existingcode) {
 
-			print $cgi->header(-status=>'200',-type=>'application/json');
-			print "{'domain':'$domain'}";
+			print $cgi->header(-status=>'200','Access-Control-Allow-Origin'=>'*',-type=>'application/json');
+			print "{\"domain\":\"$domain\"}";
 		} else {
 
-			print $cgi->header(-status=>'200',-type=>'application/json');
-			print "{'domain':'null'}";
+			print $cgi->header(-status=>'200','Access-Control-Allow-Origin'=>'*',-type=>'application/json');
+			print "{\"domain\":null}";
 		}
 	}
 } elsif ($ENV{'REQUEST_METHOD'} eq "POST") {
@@ -52,12 +52,12 @@ if ($ENV{'REQUEST_METHOD'} eq "GET") {
 		$redis->set('pagekite-code-' . $code, $domain);
 		$redis->set('pagekite-domain-' . $domain, $code);
 
-		print $cgi->header(-status=>'200 OK');
+		print $cgi->header(-status=>'200 OK','Access-Control-Allow-Origin'=>'*');
 		print '200 OK';
 		exit;
 	} else {
 
-		print $cgi->header(-status=>'400 Missing parameter(s)');
+		print $cgi->header(-status=>'400 Missing parameter(s)','Access-Control-Allow-Origin'=>'*');
 		print '400 Missing parameters(s)';
 		exit;
 	}
