@@ -43,15 +43,7 @@ while(<>)
 
                 my $result;
 
-		if ($qname =~ /$authdomain$/) {
-
-			syslog('debug', "normal query");
-
-			my $exists = $redis->exists('pagekite-domain-' . $qname);
-			syslog('debug', "exists: $exists");
-
-			$result = $target if $exists;
-		} elsif ($qname =~ /$authdomain$authdomain$/) {
+		if ($qname =~ /$authdomain\.$authdomain$/) {
 
 			syslog('debug', "pagekite query");
 
@@ -64,10 +56,25 @@ while(<>)
 			syslog('debug', "payload: $payload, sign: $sign");
 
 			my $code = $redis->get('pagekite-domain-' . $domain);
-			my $calc = sha1_hex($code . $payload . $salt);
-			syslog('debug', "calc: $calc");
 
-			$result = $calc eq $sign ? '0.0.0.0' : '255.255.255.1';
+			if (! defined $code) {
+
+				$result = '255.255.255.0';
+			} else {
+
+				my $calc = sha1_hex($code . $payload . $salt);
+				syslog('debug', "salt: $salt, calc: $calc");
+
+				$result = (substr($calc, 0, 28) eq substr($sign, 8, 28)) ? '255.255.254.255' : '255.255.255.1';
+			}
+		} elsif ($qname =~ /$authdomain$/) {
+
+			syslog('debug', "normal query");
+
+			my $exists = $redis->exists('pagekite-domain-' . $qname);
+			syslog('debug', "exists: $exists");
+
+			$result = $target if $exists;
 		} else {
 
 			$result = undef;
