@@ -23,12 +23,15 @@ Prerequisites:
 Redis is used for storing voucher codes and registered domains.
 
 If a voucher code does not exist:
+
 	pagekite-code-84c95ef5-7690  =>  null
 
 If a voucher code exists, but no domain has been registered with it:
+
 	pagekite-code-84c95ef5-7690  =>  ''
 
 If a voucher code exists, and a domain has been registered with it:
+
 	pagekite-code-84c95ef5-7690  =>  'my.freedombox.me'
 
 cgi-bin/freedomkite.pl
