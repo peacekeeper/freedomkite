@@ -72,7 +72,7 @@ Query by domain name:
 
 Register domain name using voucher code:
 
-	POST -> https://freedombox.me/freedomkite.pl?code=84c95ef5-7690&domain=test.freedombox.me
+	POST -> https://freedombox.me/cgi-bin/freedomkite.pl?code=84c95ef5-7690&domain=test.freedombox.me
 	RESPONSE -> 400, if the voucher code does not exist
 	RESPONSE -> 200, if the voucher code exists, and the domain name has been registered with it
 
