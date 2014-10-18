@@ -71,15 +71,16 @@ while(<>)
 
 			syslog('debug', "normal query");
 
+			my $lookup = $qname;
 			my $exists;
 
-			while (length($qname) > length($authdomain)) {
+			while (length($lookup) > length($authdomain)) {
 
-				$exists = $redis->exists('pagekite-domain-' . $qname);
-				syslog('debug', "qname $qname exists: $exists");
+				$exists = $redis->exists('pagekite-domain-' . $lookup);
+				syslog('debug', "lookup $lookup exists: $exists");
 
 				last if $exists;
-				$qname = substr($qname, index($qname, '.') + 1);
+				$lookup = substr($lookup, index($lookup, '.') + 1);
 			}
 
 			$result = $target if $exists;
