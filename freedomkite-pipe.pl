@@ -71,9 +71,11 @@ while(<>)
 
 			syslog('debug', "normal query");
 
+			my $exists;
+
 			while (length($qname) > length($authdomain)) {
 
-				my $exists = $redis->exists('pagekite-domain-' . $qname);
+				$exists = $redis->exists('pagekite-domain-' . $qname);
 				syslog('debug', "qname $qname exists: $exists");
 
 				last if $exists;
