@@ -39,6 +39,8 @@ while(<>)
 
         syslog('debug', "type: $type, qname: $qname, qclass: $qclass, qtype: $qtype");
 
+	$qname = lc($qname);
+
         if ($qtype eq "A" || $qtype eq "ANY") {
 
                 my $result;
