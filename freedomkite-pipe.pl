@@ -39,6 +39,8 @@ while(<>)
 
         syslog('debug', "type: $type, qname: $qname, qclass: $qclass, qtype: $qtype");
 
+	$qname = lc($qname);
+
         if ($qtype eq "A" || $qtype eq "ANY") {
 
                 my $result;
@@ -71,8 +73,17 @@ while(<>)
 
 			syslog('debug', "normal query");
 
-			my $exists = $redis->exists('pagekite-domain-' . $qname);
-			syslog('debug', "exists: $exists");
+			my $lookup = $qname;
+			my $exists;
+
+			while (length($lookup) > length($authdomain)) {
+
+				$exists = $redis->exists('pagekite-domain-' . $lookup);
+				syslog('debug', "lookup $lookup exists: $exists");
+
+				last if $exists;
+				$lookup = substr($lookup, index($lookup, '.') + 1);
+			}
 
 			$result = $target if $exists;
 		} else {
