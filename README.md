@@ -24,15 +24,15 @@ Redis is used for storing voucher codes and registered domains.
 
 If a voucher code does not exist:
 
-	pagekite-code-84c95ef5-7690  =>  null
+	pagekite-code-12345678-90ab  =>  null
 
 If a voucher code exists, but no domain has been registered with it:
 
-	pagekite-code-84c95ef5-7690  =>  ''
+	pagekite-code-12345678-90ab  =>  ''
 
 If a voucher code exists, and a domain has been registered with it:
 
-	pagekite-code-84c95ef5-7690  =>  'my.freedombox.me'
+	pagekite-code-12345678-90ab  =>  'my.freedombox.me'
 
 cgi-bin/generate.pl and index.html
 ==================================
@@ -72,7 +72,7 @@ Query by domain name:
 
 Register domain name using voucher code:
 
-	POST -> https://freedombox.me/cgi-bin/freedomkite.pl?code=84c95ef5-7690&domain=test.freedombox.me
+	POST -> https://freedombox.me/cgi-bin/freedomkite.pl?code=12345678-90ab&domain=test.freedombox.me
 	RESPONSE -> 400, if the voucher code does not exist
 	RESPONSE -> 200, if the voucher code exists, and the domain name has been registered with it
 
@@ -144,7 +144,7 @@ Prerequisites:
 In /etc/pagekite.d/10_account.rc
 
 	kitename   = my.freedombox.me
-	kitesecret = 84c95ef5-7690
+	kitesecret = 12345678-90ab
 
 In /etc/pagekite.d/20_frontends.rc
 
