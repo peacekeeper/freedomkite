@@ -134,7 +134,7 @@ In /etc/powerdns/bindbackend/zones/freedombox.me.zone
 	ns1	IN	A	146.255.62.24
 	ns2	IN	A	146.255.62.24
 
-PageKite frontend
+PageKite backend
 =================
 
 Prerequisites:
@@ -153,8 +153,9 @@ In /etc/pagekite.d/20_frontends.rc
 In /etc/pagekite.d/80_httpd.rc (example service)
 
 	service_on = http:@kitename : localhost:80 : @kitesecret
+	service_on = http:*.@kitename : localhost:80 : @kitesecret
 
-PageKite backend
+PageKite frontend
 ================
 
 Prerequisites:
