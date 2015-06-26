@@ -130,9 +130,9 @@ In /etc/powerdns/bindbackend/zones/freedombox.me.zone
 	)
 		IN	NS	ns1.freedombox.me.
 		IN	NS	ns2.freedombox.me.
-		IN	A	146.255.62.24
-	ns1	IN	A	146.255.62.24
-	ns2	IN	A	146.255.62.24
+		IN	A	212.232.25.34
+	ns1	IN	A	212.232.25.34
+	ns2	IN	A	212.232.25.34
 
 PageKite backend
 =================
@@ -165,12 +165,13 @@ Prerequisites:
 In /etc/pagekite.d/20_frontends.rc
 
 	isfrontend
-	ports  = 80,443
-	protos = http,https
+	host = 212.232.25.35
+	ports  = 80,443,8080,8443
+	protos = http,https,raw
 
 In /etc/pagekite.d/80_domains.rc
 
-	authdomain = freedombox.me
+	authdomain = freedombox.me:freedombox.me
 
 This **authdomain** setting specifies that the PageKite backend will use the freedombox.me domain name for DNS-based authentication requests.
 
