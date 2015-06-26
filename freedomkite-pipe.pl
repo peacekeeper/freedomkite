@@ -8,7 +8,7 @@ use Redis;
 openlog('freedomkite', 'ndelay.pid', 'local1');
 
 my $authdomain = 'freedombox.me';
-my $target = '146.255.62.25';
+my $target = '212.232.25.35';
 my $redis = Redis->new( server => 'localhost:6379' );
 
 $|=1;
