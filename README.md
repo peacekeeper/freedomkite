@@ -39,7 +39,7 @@ cgi-bin/generate.pl and index.html
 
 Prerequisites:
 
-* aptitude install libdata-gui-perl
+* aptitude install libdata-guid-perl
 * aptitude install libredis-perl
 
 This is a simple HTML frontend that issues a new random voucher code and stores it in the Redis database.
