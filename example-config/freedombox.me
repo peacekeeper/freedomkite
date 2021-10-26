@@ -1,0 +1,14 @@
+server {
+        listen freedombox.me:80;
+        server_name freedombox.me;
+
+        root /home/markus/workspace/freedomkite/www/;
+
+        location /cgi-bin/ {
+                gzip off;
+                #  root  /usr/share/nginx/html/;
+                fastcgi_pass  unix:/var/run/fcgiwrap.socket;
+                include /etc/nginx/fastcgi_params;
+        }
+}
+
